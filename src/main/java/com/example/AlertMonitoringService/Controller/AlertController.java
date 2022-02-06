@@ -58,10 +58,22 @@ public class AlertController {
         return alertService.updateAlertStatus(alertRequest, id);
     }
 
-    //Get Report Alerts By Filters
-    @GetMapping(value = "/report/filter/{id}")
-    public AlertResponse getAlertsByFilters(@PathVariable Long id, @RequestBody AlertRequest alertRequest) throws Exception {
-        return alertService.getAlertsByFilters(id, alertRequest);
+    //Get Report Alerts By Filters - By team
+    @GetMapping(value = "/report/filter/1/{teamId}")
+    public AlertResponse getAlertsByFilters_TeamIdAndBetweenDates(@PathVariable("teamId") Long teamId) throws Exception {
+        return alertService.getAlertsByFilters_TeamId(teamId);
+    }
+
+    //Get Report Alerts By Filters - Between dates
+    @GetMapping(value = "/report/filter/2/{startDate}/{endDate}")
+    public AlertResponse getAlertsByFilters_TeamIdAndBetweenDates(@PathVariable("startDate") String startDate, @PathVariable("endDate") String endDate) throws Exception {
+        return alertService.getAlertsByFilters_BetweenDates(startDate, endDate);
+    }
+
+    //Get Report Alerts By Filters - By team and between dates
+    @GetMapping(value = "/report/filter/3/{teamId}/{startDate}/{endDate}")
+    public AlertResponse getAlertsByFilters_TeamIdAndBetweenDates(@PathVariable("teamId") Long teamId, @PathVariable("startDate") String startDate, @PathVariable("endDate") String endDate) throws Exception {
+        return alertService.getAlertsByFilters_TeamIdAndBetweenDates(teamId, startDate, endDate);
     }
 }
 
@@ -76,10 +88,21 @@ Update Alert Status
 oyoams/api/dashboard/alert/{id}
 {id} = alert Id
 
-Get Report Alerts By Filters
-oyoams/api/report/filter/{id}
+Get Report Alerts By Filters - By Team Id
+oyoams/api/report/filter/1/{teamId}
+
+Get Report Alerts By Filters - Between Dates
+oyoams/api/report/filter/2/{startDate}/{endDate}
+
+Get Report Alerts By Filters - By Team Id and Between Dates
+oyoams/api/report/filter/3/{teamId}/{startDate}/{endDate}
+
 {id} = filter id
 id = 1 => by team id
 id = 2 => by between two dates
 id = 3 => by team id and between two dates
+
+startDate = "YYYY-MM-DD"
+endDate = "YYYY-MM-DD"
+teamId = Long
  */

@@ -77,18 +77,4 @@ public class AlertServiceUtility {
         return false;
     }
 
-    //Utility function to check validity for filters
-    public boolean filtersValidityUtil(Long filterId, AlertRequest alertRequest) {
-        if(filterId == 1) {
-            return alertRequest.getTeamId() != null;
-        }
-        if(filterId == 2) {
-            return alertRequest.getStartDate() != null && alertRequest.getEndDate() != null;
-        }
-        if(filterId == 3) {
-            return alertRequest.getTeamId() != null && alertRequest.getStartDate() != null && alertRequest.getEndDate() != null;
-        }
-        return false;
-    }
-
 }

@@ -15,26 +15,71 @@ public class AlertController {
 
     @RequestMapping("/")
     String home() {
-        return "Hello!";
+        return "Alert Management System - OYO-AMS - Technodisrupters!!";
     }
 
-    @PostMapping(value = "/alert")
+    @RequestMapping("/dashboard")
+    String dashboard() {
+        return "Alert Management System Dashboard- OYO-AMS Dashboard- Technodisrupters!!";
+    }
+
+    @RequestMapping("/report")
+    String report() {
+        return "Alert Management System Report- OYO-AMS Report- Technodisrupters!!";
+    }
+
+    //create alerts in database from grafana
+    @PostMapping(value = "/dashboard/alert")
     public void createAlert(@RequestBody AlertRequest alertRequest) {
         alertService.createAlert(alertRequest);
     }
 
-    @GetMapping(value = "/alert/{id}")
-    public AlertResponseItem getAlertByID(@PathVariable Long id) {
-         return alertService.getAlertByID(id);
+    // Not required in phase 1 - created for personal testing
+    @GetMapping(value = "/dashboard/alert/{id}")
+    public AlertResponseItem getAlertById(@PathVariable Long id) {
+         return alertService.getAlertById(id);
     }
 
-    @GetMapping(value = "alert")
+    // Not required in phase 1 - created for personal testing
+    @GetMapping(value = "/dashboard/alerts")
     public AlertResponse getAllAlert() {
-        return alertService.getAllAlert();
+        return alertService.getAllAlerts();
     }
 
-    @GetMapping(value = "/alert/status/{status}")
-    public AlertResponse getAlertByStatus(@PathVariable String status) {
-        return alertService.getAlertByStatus(status);
+    //Get alerts by alertStatus
+    @GetMapping(value = "/dashboard/alerts/status/{status}")
+    public AlertResponse getAlertsByStatus(@PathVariable String status) {
+        return alertService.getAlertsByStatus(status);
+    }
+
+    //change alert status
+    @PutMapping(value = "/dashboard/alert/{id}")
+    public AlertResponseItem updateAlertStatus(@RequestBody AlertRequest alertRequest, @PathVariable Long id){
+        return alertService.updateAlertStatus(alertRequest, id);
+    }
+
+    //Get Report Alerts By Filters
+    @GetMapping(value = "/report/filter/{id}")
+    public AlertResponse getAlertsByFilters(@PathVariable Long id, @RequestBody AlertRequest alertRequest) throws Exception {
+        return alertService.getAlertsByFilters(id, alertRequest);
     }
 }
+
+/*
+For Frontend Team -
+
+Get Alerts By Alert Status
+oyoams/api/dashboard/alerts/status/{status}
+{status} = Triggered/Acknowledged/Resolved
+
+Update Alert Status
+oyoams/api/dashboard/alert/{id}
+{id} = alert Id
+
+Get Report Alerts By Filters
+oyoams/api/report/filter/{id}
+{id} = filter id
+id = 1 => by team id
+id = 2 => by between two dates
+id = 3 => by team id and between two dates
+ */

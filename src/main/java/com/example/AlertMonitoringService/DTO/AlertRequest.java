@@ -19,4 +19,16 @@ public class AlertRequest {
 
     @JsonProperty(value = "message")
     private String description;
+
+    @JsonProperty(value = "status")
+    private String status;
+
+    @JsonProperty(value = "startDate")
+    private String startDate;
+
+    @JsonProperty(value = "endDate")
+    private String endDate;
+
+    @JsonProperty(value = "teamId")
+    private Long teamId;
 }

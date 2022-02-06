@@ -24,8 +24,8 @@ public class Alert {
     @Column(name="alertName",nullable = false)
     private String alertName;
 
-    @Column(name="firedDateTime")
-    private LocalDateTime firedDateTime;
+    @Column(name="triggeredDateTime")
+    private LocalDateTime triggeredDateTime;
 
     @Column(name="acknowledgedDateTime")
     private LocalDateTime acknowledgedDateTime;
@@ -39,5 +39,8 @@ public class Alert {
     @Column(name="alertStatus")
     @Enumerated
     private AlertStatus alertStatus;
+
+    @Column(name = "teamId")
+    private Long teamId;
 
 }

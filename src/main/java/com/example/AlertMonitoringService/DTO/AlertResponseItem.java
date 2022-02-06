@@ -21,8 +21,8 @@ public class AlertResponseItem {
     @JsonProperty(value="alertName")
     private String alertName;
 
-    @JsonProperty(value="firedDateTime")
-    private LocalDateTime firedDateTime;
+    @JsonProperty(value="triggeredDateTime")
+    private LocalDateTime triggeredDateTime;
 
     @JsonProperty(value="acknowledgedDateTime")
     private LocalDateTime acknowledgedDateTime;
@@ -35,4 +35,7 @@ public class AlertResponseItem {
 
     @JsonProperty(value="alertStatus")
     private String alertStatus;
+
+    @JsonProperty(value = "teamId")
+    private Long teamId;
 }

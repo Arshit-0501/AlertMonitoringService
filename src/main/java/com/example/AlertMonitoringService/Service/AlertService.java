@@ -57,38 +57,22 @@ public class AlertService {
         return alertServiceUtility.alertToAlertResponseItemUtil(alert);
     }
 
-    private AlertResponse getAlertsByTeamId(AlertRequest alertRequest) {
-        Long teamId = alertRequest.getTeamId();
+    public AlertResponse getAlertsByFilters_TeamId(Long teamId) {
         List<Alert> alerts = alertRepository.findAllByTeamId(teamId);
         return alertServiceUtility.alertsToAlertResponseUtil(alerts);
     }
 
-    private AlertResponse getAlertsBetweenTwoDates(AlertRequest alertRequest) {
-        LocalDateTime startDateTime = LocalDateTime.parse(alertRequest.getStartDate() + " 00:00", dateFormatter);
-        LocalDateTime endDateTime = LocalDateTime.parse(alertRequest.getEndDate() + " 23:59", dateFormatter);
+    public AlertResponse getAlertsByFilters_BetweenDates(String startDate, String endDate) {
+        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00", dateFormatter);
+        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 23:59", dateFormatter);
         List<Alert> alerts = alertRepository.findAllByTriggeredDateTimeBetween(startDateTime, endDateTime);
         return alertServiceUtility.alertsToAlertResponseUtil(alerts);
     }
 
-    private AlertResponse getAlertsByTeamIdAndBetweenTwoDates(AlertRequest alertRequest) {
-        Long teamId = alertRequest.getTeamId();
-        LocalDateTime startDateTime = LocalDateTime.parse(alertRequest.getStartDate() + " 00:00", dateFormatter);
-        LocalDateTime endDateTime = LocalDateTime.parse(alertRequest.getEndDate() + " 23:59", dateFormatter);
+    public AlertResponse getAlertsByFilters_TeamIdAndBetweenDates(Long teamId, String startDate, String endDate) {
+        LocalDateTime startDateTime = LocalDateTime.parse(startDate + " 00:00", dateFormatter);
+        LocalDateTime endDateTime = LocalDateTime.parse(endDate + " 23:59", dateFormatter);
         List<Alert> alerts = alertRepository.findAllByTeamIdAndTriggeredDateTimeBetween(teamId, startDateTime, endDateTime);
         return alertServiceUtility.alertsToAlertResponseUtil(alerts);
-    }
-
-    public AlertResponse getAlertsByFilters(Long filterId, AlertRequest alertRequest) throws Exception {
-        if(!alertServiceUtility.filtersValidityUtil(filterId, alertRequest)) {
-            throw new Exception("Invalid Filter Parameters!!");
-        }
-        if (filterId == 1) {
-            return getAlertsByTeamId(alertRequest);
-        } else if (filterId == 2) {
-            return getAlertsBetweenTwoDates(alertRequest);
-        } else if (filterId == 3) {
-            return getAlertsByTeamIdAndBetweenTwoDates(alertRequest);
-        }
-        return null;
     }
 }

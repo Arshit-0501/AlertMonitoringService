@@ -6,13 +6,14 @@ import com.example.AlertMonitoringService.DTO.AlertResponseItem;
 import com.example.AlertMonitoringService.Model.Alert;
 import com.example.AlertMonitoringService.Model.AlertStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
+@Service
 public class AlertServiceUtility {
 
     private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -25,7 +26,9 @@ public class AlertServiceUtility {
                 .triggeredDateTime(LocalDateTime.parse(LocalDateTime.now().format(dateFormatter), dateFormatter))
                 .description(alertRequest.getDescription())
                 .alertStatus(AlertStatus.Triggered)
-                .teamId(alertRequest.getTeamId()!=null?alertRequest.getTeamId():1L)
+                .ruleId(alertRequest.getRuleId())
+                .state(alertRequest.getState())
+                .resolvedReason(alertRequest.getResolvedReason())
                 .build();
     }
 
@@ -34,12 +37,14 @@ public class AlertServiceUtility {
         return AlertResponseItem.builder()
                 .alertId(alert.getAlertId())
                 .alertName(alert.getAlertName())
-                .triggeredDateTime(alert.getTriggeredDateTime())
-                .acknowledgedDateTime(alert.getAcknowledgedDateTime())
-                .resolvedDateTime(alert.getResolvedDateTime())
+                .triggeredDateTime(String.valueOf(alert.getTriggeredDateTime()))
+                .acknowledgedDateTime(String.valueOf(alert.getAcknowledgedDateTime()))
+                .resolvedDateTime(String.valueOf(alert.getResolvedDateTime()))
                 .description(alert.getDescription())
-                .alertStatus(alert.getAlertStatus().name())
-                .teamId(alert.getTeamId())
+                .alertStatus(String.valueOf(alert.getAlertStatus()))
+                .state(alert.getState())
+                .ruleId(alert.getRuleId())
+                .resolvedReason(alert.getResolvedReason())
                 .build();
     }
 
@@ -68,13 +73,8 @@ public class AlertServiceUtility {
 
     //Utility function to check validity of alertStatus update request
     public boolean updateAlertStatusValidityUtil(Alert alert, AlertRequest alertRequest) {
-        if(alert.getAlertStatus() == AlertStatus.Triggered && AlertStatus.valueOf(alertRequest.getStatus()) == AlertStatus.Acknowledged){
-            return true;
-        }
-        if(alert.getAlertStatus() == AlertStatus.Acknowledged && AlertStatus.valueOf(alertRequest.getStatus()) == AlertStatus.Resolved){
-            return true;
-        }
-        return false;
+        return (alert.getAlertStatus() == AlertStatus.Triggered && AlertStatus.valueOf(alertRequest.getStatus()) == AlertStatus.Acknowledged)
+        || (alert.getAlertStatus() == AlertStatus.Acknowledged && AlertStatus.valueOf(alertRequest.getStatus()) == AlertStatus.Resolved);
     }
 
 }

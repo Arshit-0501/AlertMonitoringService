@@ -40,7 +40,13 @@ public class Alert {
     @Enumerated
     private AlertStatus alertStatus;
 
-    @Column(name = "teamId")
-    private Long teamId;
+    @Column(name="state")
+    private String state;
+
+    @Column(name="ruleId")
+    private Long ruleId;
+
+    @Column(name="resolvedReason")
+    private String resolvedReason;
 
 }

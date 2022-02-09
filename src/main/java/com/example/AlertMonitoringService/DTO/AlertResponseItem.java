@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -22,13 +23,13 @@ public class AlertResponseItem {
     private String alertName;
 
     @JsonProperty(value="triggeredDateTime")
-    private LocalDateTime triggeredDateTime;
+    private String triggeredDateTime;
 
     @JsonProperty(value="acknowledgedDateTime")
-    private LocalDateTime acknowledgedDateTime;
+    private String acknowledgedDateTime;
 
     @JsonProperty(value="resolvedDateTime")
-    private LocalDateTime resolvedDateTime;
+    private String resolvedDateTime;
 
     @JsonProperty(value="description")
     private String description;
@@ -36,6 +37,13 @@ public class AlertResponseItem {
     @JsonProperty(value="alertStatus")
     private String alertStatus;
 
-    @JsonProperty(value = "teamId")
-    private Long teamId;
+    @JsonProperty(value = "state")
+    private String state;
+
+    @JsonProperty(value = "ruleId")
+    private Long ruleId;
+
+    @JsonProperty(value = "resolvedReason")
+    private String resolvedReason;
+
 }

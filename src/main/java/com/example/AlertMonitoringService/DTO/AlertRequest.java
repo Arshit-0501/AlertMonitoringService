@@ -20,8 +20,12 @@ public class AlertRequest {
     @JsonProperty(value = "message")
     private String description;
 
+    //For updating alert Status by Frontend
     @JsonProperty(value = "status")
     private String status;
+
+    @JsonProperty(value = "state")
+    private String state;
 
     @JsonProperty(value = "startDate")
     private String startDate;
@@ -29,6 +33,9 @@ public class AlertRequest {
     @JsonProperty(value = "endDate")
     private String endDate;
 
-    @JsonProperty(value = "teamId")
-    private Long teamId;
+    @JsonProperty(value = "ruleId")
+    private Long ruleId;
+
+    @JsonProperty(value = "resolvedReason")
+    private String resolvedReason;
 }

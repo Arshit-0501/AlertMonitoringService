@@ -16,4 +16,13 @@ public class AlertResponse {
 
     @JsonProperty(value = "alerts")
     List<AlertResponseItem> alertResponseItemList;
+
+    @JsonProperty(value = "triggeredCount")
+    Long triggeredCount;
+
+    @JsonProperty(value = "acknowledgedCount")
+    Long acknowledgedCount;
+
+    @JsonProperty(value = "resolvedCount")
+    Long resolvedCount;
 }

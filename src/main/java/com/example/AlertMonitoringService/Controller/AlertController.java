@@ -30,6 +30,13 @@ public class AlertController {
         alertService.createAlert(alertRequest);
     }
 
+    //Get alert by alert id
+    @CrossOrigin
+    @GetMapping(value = "/dashboard/{id}")
+    public AlertResponseItem getAlertByAlertId(@PathVariable("id") Long alertId) {
+        return alertService.getAlertByAlertId(alertId);
+    }
+
     //Get alerts by alertStatus
     @CrossOrigin
     @GetMapping(value = "/dashboard")

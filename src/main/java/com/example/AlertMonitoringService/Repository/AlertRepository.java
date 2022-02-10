@@ -9,12 +9,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
 
 @Repository
 public interface AlertRepository extends JpaRepository<Alert,Long> {
 
     Page<Alert> findAll(Pageable pageable);
+
+    List<Alert> findAllByAlertStatus(AlertStatus alertStatus);
 
     List<Alert> findAllByAlertStatus(Pageable pageable, AlertStatus alertStatus);
 
@@ -27,4 +30,5 @@ public interface AlertRepository extends JpaRepository<Alert,Long> {
     List<Alert> findAllByAlertStatusAndResolvedDateTimeBetween(AlertStatus resolved, LocalDateTime startDateTime, LocalDateTime endDateTime);
 
     Page<Alert> findByRuleIdAndAlertStatus(Pageable pageRequest, Long ruleId, AlertStatus alertStatus);
+
 }

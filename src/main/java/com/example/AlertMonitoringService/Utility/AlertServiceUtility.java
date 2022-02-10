@@ -49,7 +49,7 @@ public class AlertServiceUtility {
     }
 
     //Utility function to convert alerts to AlertResponse
-    public AlertResponse alertsToAlertResponseUtil(List<Alert> alerts) {
+    public AlertResponse alertsToAlertResponseUtil(List<Alert> alerts, long triggeredCount, long acknowledgedCount, long resolvedCount) {
         List<AlertResponseItem> alertResponseList = new ArrayList<>();
         for (Alert alert : alerts) {
             AlertResponseItem alertResponseItem = alertToAlertResponseItemUtil(alert);
@@ -57,6 +57,9 @@ public class AlertServiceUtility {
         }
         return AlertResponse.builder()
                 .alertResponseItemList(alertResponseList)
+                .triggeredCount(triggeredCount)
+                .acknowledgedCount(acknowledgedCount)
+                .resolvedCount(resolvedCount)
                 .build();
     }
 

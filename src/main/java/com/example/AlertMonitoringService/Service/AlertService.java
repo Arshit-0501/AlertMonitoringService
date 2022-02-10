@@ -50,6 +50,11 @@ public class AlertService {
         }
     }
 
+    public AlertResponseItem getAlertByAlertId(Long alertId) {
+        Alert alert = alertRepository.findById(alertId).orElseThrow(() -> new EntityNotFoundException("AlertId is Invalid !!"));
+        return alertServiceUtility.alertToAlertResponseItemUtil(alert);
+    }
+
     public AlertResponse getAlertsByStatus(String status, String team, Long pageNumber, String sortDirection) {
         Pageable pageRequest;
         if(Objects.equals(sortDirection, "desc")) {
@@ -65,7 +70,10 @@ public class AlertService {
             alerts = page.getContent();
         }
         if(Objects.equals(team, "All")) {
-            return alertServiceUtility.alertsToAlertResponseUtil(alerts);
+            long triggeredCount = (long)alertRepository.findAllByAlertStatus(AlertStatus.Triggered).size();
+            long acknowledgedCount = (long)alertRepository.findAllByAlertStatus(AlertStatus.Acknowledged).size();
+            long resolvedCount = (long)alertRepository.findAllByAlertStatus(AlertStatus.Resolved).size();
+            return alertServiceUtility.alertsToAlertResponseUtil(alerts, triggeredCount, acknowledgedCount, resolvedCount);
         }
         List<Alert> teamAlerts = new ArrayList<>();
         team = team.toLowerCase();
@@ -75,7 +83,10 @@ public class AlertService {
                 teamAlerts.add(alert);
             }
         }
-        return alertServiceUtility.alertsToAlertResponseUtil(teamAlerts);
+        long triggeredCount = getAlertStatusCountTeamWise(team, AlertStatus.Triggered);
+        long acknowledgedCount = getAlertStatusCountTeamWise(team, AlertStatus.Acknowledged);
+        long resolvedCount = getAlertStatusCountTeamWise(team, AlertStatus.Resolved);
+        return alertServiceUtility.alertsToAlertResponseUtil(teamAlerts, triggeredCount, acknowledgedCount, resolvedCount);
     }
 
     public AlertResponseItem updateAlertStatus(AlertRequest alertRequest, Long id) {
@@ -180,6 +191,19 @@ public class AlertService {
         }
         count[4] = count[1] + count[2] + count[3];
 
+        return count;
+    }
+
+    private long getAlertStatusCountTeamWise(String team, AlertStatus alertStatus) {
+        List<Alert> alerts = alertRepository.findAllByAlertStatus(alertStatus);
+        long count = 0;
+        team = team.toLowerCase();
+        for(Alert alert : alerts) {
+            String message = alert.getDescription().toLowerCase();
+            if(message.contains(team)) {
+                count++;
+            }
+        }
         return count;
     }
 

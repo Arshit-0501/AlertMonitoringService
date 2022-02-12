@@ -4,12 +4,10 @@ import com.example.AlertMonitoringService.Model.Alert;
 import com.example.AlertMonitoringService.Model.AlertStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 
 @Repository
